@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+require_relative "../lib/namesound/cmd/cli"
+
+$stdin.binmode
+$stdout.binmode
+$stderr.binmode
+
+io = Class.new do
+  def read_stdin
+    $stdin.read
+  rescue SystemCallError, ArgumentError => e
+    raise IOError, e.message
+  end
+
+  def read_file(path)
+    File.binread(path)
+  rescue SystemCallError, ArgumentError => e
+    raise IOError, e.message
+  end
+
+  def out(text)
+    $stdout.write(text)
+  end
+
+  def err(text)
+    $stderr.write(text)
+  end
+end.new
+
+argv = ARGV.map { |argument| argument.dup.force_encoding(Encoding::UTF_8) }
+exit Namesound::Cli.run(argv, io)

@@ -1,0 +1,5 @@
+*.db
+.bundle/
+vendor/bundle/
+*.gem
+coverage/
