@@ -6,7 +6,7 @@ module Namesound
   module Grouper
     Group = Struct.new(:key, :names)
 
-    def self.group(algorithm, entries, minimum)
+    def self.group(algorithm, entries, minimum, order = "key")
       seen_entries = {}
       groups_by_key = {}
 
@@ -25,7 +25,10 @@ module Namesound
         group.names << entry
       end
 
-      groups_by_key.values.select { |group| group.names.length >= minimum }.sort_by(&:key)
+      groups = groups_by_key.values.select { |group| group.names.length >= minimum }
+      return groups.sort_by { |group| [-group.names.length, group.key] } if order == "count"
+
+      groups.sort_by(&:key)
     end
   end
 end

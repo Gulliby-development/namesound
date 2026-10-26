@@ -19,7 +19,7 @@ module Namesound
 
       if argv == ["--help"]
         io.out("usage: namesound algorithms\n       namesound key [--bare] ALGORITHM FILE\n       " \
-               "namesound group [--min N] ALGORITHM FILE...\n       " \
+               "namesound group [--min N] [--sort ORDER] ALGORITHM FILE...\n       " \
                "namesound compare [--algorithm NAME] NAME1 NAME2\n")
         return 0
       end
@@ -35,7 +35,7 @@ module Namesound
                  parsed = Options.parse(arguments, Set.new(["--bare"]), Set.new)
                  KeyCommand.run(parsed.args, parsed.flags, parsed.settings, inputs)
                when "group"
-                 parsed = Options.parse(arguments, Set.new, Set.new(["--min"]))
+                 parsed = Options.parse(arguments, Set.new, Set.new(["--min", "--sort"]))
                  GroupCommand.run(parsed.args, parsed.flags, parsed.settings, inputs)
                when "compare"
                  parsed = Options.parse(arguments, Set.new, Set.new(["--algorithm"]))
