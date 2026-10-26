@@ -184,7 +184,9 @@ RSpec.describe Namesound do
                                                    inputs)
 
     expect(hyphen_leading.code).to eq(0)
-    expect(hyphen_leading.out).to eq("ALGORITHM  FIRST  SECOND  SAME\nsoundex    R163   R163    yes\nagree: 1 of 1\n")
+    expect(hyphen_leading.out).to eq(
+      "ALGORITHM  FIRST  SECOND  SAME\nsoundex    R163   R163    yes\nagree: 1 of 1\n"
+    )
   end
 
   it "raises direct unprefixed validation failures before any file reads" do

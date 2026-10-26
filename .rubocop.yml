@@ -16,7 +16,7 @@ Metrics:
   Enabled: false
 
 Layout/LineLength:
-  Max: 120
+  Max: 115
 
 # git decides the line endings (.gitattributes); RuboCop's autocorrect on Windows writes CRLF, which this cop
 # would then report and cannot repair.

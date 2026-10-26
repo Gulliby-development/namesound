@@ -23,7 +23,7 @@ RSpec.describe "README documentation" do
       ```text
       usage: namesound algorithms
              namesound key [--bare] ALGORITHM FILE
-             namesound group [--min N] ALGORITHM FILE...
+             namesound group [--min N] [--sort ORDER] ALGORITHM FILE...
              namesound compare [--algorithm NAME] NAME1 NAME2
       ```
     USAGE

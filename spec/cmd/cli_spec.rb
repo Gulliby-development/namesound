@@ -54,7 +54,7 @@ RSpec.describe Namesound::Cli do
     expect(io.events).to eq(
       [[:out, "usage: namesound algorithms\n       " \
               "namesound key [--bare] ALGORITHM FILE\n       " \
-              "namesound group [--min N] ALGORITHM FILE...\n       " \
+              "namesound group [--min N] [--sort ORDER] ALGORITHM FILE...\n       " \
               "namesound compare [--algorithm NAME] NAME1 NAME2\n"]]
     )
 
@@ -113,8 +113,9 @@ RSpec.describe Namesound::Cli do
         %w[compare Smith Smyth],
         0,
         [
-          [:out, "ALGORITHM  FIRST   SECOND  SAME\nsoundex    S530    S530    yes\nrefined    S38060  S38060  yes\n" \
-                 "nysiis     SNAT    SNYT    no\nmetaphone  SM0     SM0     yes\ncologne    862     862     yes\n" \
+          [:out, "ALGORITHM  FIRST   SECOND  SAME\nsoundex    S530    S530    yes\n" \
+                 "refined    S38060  S38060  yes\nnysiis     SNAT    SNYT    no\n" \
+                 "metaphone  SM0     SM0     yes\ncologne    862     862     yes\n" \
                  "mra        SMTH    SMYTH   yes\nagree: 5 of 6\n"]
         ]
       ],
@@ -291,6 +292,8 @@ RSpec.describe Namesound::Cli do
       binmode: true
     )
 
-    expect([status.exitstatus, stdout, stderr]).to eq([2, "".b, "namesound: <stdin>: input is not valid UTF-8\n".b])
+    expect([status.exitstatus, stdout, stderr]).to eq(
+      [2, "".b, "namesound: <stdin>: input is not valid UTF-8\n".b]
+    )
   end
 end
