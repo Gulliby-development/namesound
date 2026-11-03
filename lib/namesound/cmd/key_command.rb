@@ -18,6 +18,7 @@ module Namesound
       raise Failure, "unknown algorithm #{Text.show(args[0])}" unless algorithm
 
       entries = Inputs.entries(inputs.read(args[1]).text)
+      entries = entries.uniq if flags.include?("--unique")
       keys = entries.map { |entry| Keyer.key(algorithm.name, entry) }
       KeyReport.render(entries, keys, flags.include?("--bare"))
     end

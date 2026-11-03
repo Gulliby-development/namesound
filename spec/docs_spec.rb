@@ -22,7 +22,7 @@ RSpec.describe "README documentation" do
     expect(readme).to include(<<~USAGE)
       ```text
       usage: namesound algorithms
-             namesound key [--bare] ALGORITHM FILE
+             namesound key [--bare] [--unique] ALGORITHM FILE
              namesound group [--min N] [--sort ORDER] ALGORITHM FILE...
              namesound compare [--algorithm NAME] NAME1 NAME2
       ```
@@ -53,6 +53,20 @@ RSpec.describe "README documentation" do
       Smith    S530
       ```
     KEY_EXAMPLE
+
+    expect(readme).to include(<<~'UNIQUE_EXAMPLE')
+      ```sh
+      printf 'Smith\nSmyth\nSmith\nsmith\n\n  Smyth \n' > names.txt
+      ruby exe/namesound key --unique soundex names.txt
+      ```
+
+      ```text
+      NAME   KEY
+      Smith  S530
+      Smyth  S530
+      smith  S530
+      ```
+    UNIQUE_EXAMPLE
 
     expect(readme).to include(<<~'GROUP_EXAMPLE')
       ```sh

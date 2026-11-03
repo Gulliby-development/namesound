@@ -53,7 +53,7 @@ RSpec.describe Namesound::Cli do
     expect(described_class.run(["--help"], io)).to eq(0)
     expect(io.events).to eq(
       [[:out, "usage: namesound algorithms\n       " \
-              "namesound key [--bare] ALGORITHM FILE\n       " \
+              "namesound key [--bare] [--unique] ALGORITHM FILE\n       " \
               "namesound group [--min N] [--sort ORDER] ALGORITHM FILE...\n       " \
               "namesound compare [--algorithm NAME] NAME1 NAME2\n"]]
     )
