@@ -18,7 +18,7 @@ Use Ruby 3.4 and Bundler. From the project directory, install the development de
 
 ```text
 usage: namesound algorithms
-       namesound key [--bare] ALGORITHM FILE
+       namesound key [--bare] [--unique] ALGORITHM FILE
        namesound group [--min N] [--sort ORDER] ALGORITHM FILE...
        namesound compare [--algorithm NAME] NAME1 NAME2
 ```
@@ -50,6 +50,22 @@ Smith    S530
 ```
 
 The exit code is 1 here because `1234` has no key. `--bare` writes the keys only, one per line.
+
+### Unique example
+
+```sh
+printf 'Smith\nSmyth\nSmith\nsmith\n\n  Smyth \n' > names.txt
+ruby exe/namesound key --unique soundex names.txt
+```
+
+```text
+NAME   KEY
+Smith  S530
+Smyth  S530
+smith  S530
+```
+
+The entry `  Smyth ` is trimmed first, so it equals the earlier `Smyth` and is skipped. Text is compared exactly, so `smith` stays.
 
 ### Group example
 
@@ -119,7 +135,7 @@ mra        6 chars     Match Rating Approach codex
 The available algorithms are `soundex` (American Soundex), `refined` (Refined Soundex), `nysiis` (cut at six characters), `metaphone`, `cologne` (German Cologne phonetics), and `mra` (Match Rating Approach codex). Algorithm names are ASCII case-insensitive, so names such as `SOUNDEX` and `Nysiis` are accepted.
 
 - `algorithms` prints the algorithm table and takes no arguments.
-- `key [--bare] ALGORITHM FILE` reads one file and prints each entry with its key. `--bare` prints only the keys. An entry with no key is shown as `-` (or as an empty line in bare mode); any such entry makes the command return code 1.
+- `key [--bare] [--unique] ALGORITHM FILE` reads one file and prints each entry with its key. `--bare` prints only the keys. `--unique` skips an entry whose exact text appeared earlier in the file, so only the first of equal entries is keyed and shown. An entry with no key is shown as `-` (or as an empty line in bare mode); any such entry makes the command return code 1.
 - `group [--min N] [--sort ORDER] ALGORITHM FILE...` reads all named files in argument order, removes duplicate entries by exact text, and groups distinct names by equal key. Entries without a key are omitted. The default minimum group size is 2; `N` must be an ASCII integer from 1 through 99. Groups are ordered by key, or with `--sort count` by size, largest first and equal sizes by key; `--sort key` is the default and any other order is an error. The names of a group retain first-appearance order. For `mra`, groups use equal codex keys.
 - `compare [--algorithm NAME] NAME1 NAME2` compares the two names under all six algorithms, or only the selected algorithm. Non-MRA algorithms agree when both keys are nonempty and equal. MRA compares codices using Match Rating rules; it does not require the codices to be identical. Names are arguments rather than file paths.
 
@@ -130,6 +146,7 @@ Input files must contain valid UTF-8. Entries are separated by LF; a CR immediat
 | Option | Command | Description |
 |---|---|---|
 | `--bare` | `key` | Write the keys only, one per line |
+| `--unique` | `key` | Skip an entry whose exact text appeared earlier |
 | `--min N` or `--min=N` | `group` | Least number of names a group needs, 1 to 99 (default 2) |
 | `--sort ORDER` or `--sort=ORDER` | `group` | `key` (default) or `count`: largest groups first |
 | `--algorithm NAME` or `--algorithm=NAME` | `compare` | Compare under one algorithm only |
